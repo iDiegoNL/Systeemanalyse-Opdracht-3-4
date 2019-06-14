@@ -79,13 +79,41 @@ class ProductController extends Controller
     }
 
     /**
-     * Remove all resources from storage.
+     * Show the form for editing the specified resource.
      *
-     * @param  \App\Product $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function edit($id)
     {
-        //
+        $product = Product::find($id);
+
+        return view('admin.edit', ['product' => $product]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'naam' => 'required',
+            'beschrijving' => 'required',
+            'prijs' => 'required|numeric',
+        ]);
+
+        $product = Product::find($id);
+
+        $product->naam = $request->naam;
+        $product->beschrijving = $request->beschrijving;
+        $product->prijs = $request->prijs;
+
+        $product->save();
+
+        return redirect(route('admin.actions'));
     }
 }

@@ -21,3 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('producten', 'ProductController');
 Route::resource('beoordelingen', 'BeoordelingController');
+
+// Beheerderspaneel
+Route::get('/admin', 'AdminController@actions')->name('admin.actions')->middleware('admin');
+Route::get('/product/edit/{id}', 'ProductController@edit')->name('admin.edit')->middleware('admin');
+Route::post('/product/edit/{id}', 'ProductController@update')->name('admin.update')->middleware('admin');
